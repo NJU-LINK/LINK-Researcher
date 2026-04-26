@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="680" viewBox="0 0 1280 680" role="img" aria-label="Deep Research architecture overview">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .panel { fill: #f7f8fa; stroke: #d8dde6; stroke-width: 1.5; rx: 14; }
+      .title { font: 700 22px Inter, Arial, sans-serif; fill: #1f2937; }
+      .txt { font: 500 15px Inter, Arial, sans-serif; fill: #4b5563; }
+      .small { font: 500 13px Inter, Arial, sans-serif; fill: #6b7280; }
+      .arrow { stroke: #6b7280; stroke-width: 2; marker-end: url(#m); fill: none; }
+    </style>
+    <marker id="m" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#6b7280" />
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1280" height="680"/>
+  <text class="title" x="48" y="56">LINK-Researcher - Architecture</text>
+
+  <rect class="panel" x="48" y="96" width="248" height="120" />
+  <text class="txt" x="72" y="136">Entrypoint</text>
+  <text class="small" x="72" y="162">Task params / Queue / MCP</text>
+
+  <rect class="panel" x="352" y="96" width="280" height="120" />
+  <text class="txt" x="376" y="136">Graph Router</text>
+  <text class="small" x="376" y="162">HTMLGraph / MDGraph</text>
+
+  <rect class="panel" x="688" y="96" width="544" height="220" />
+  <text class="txt" x="712" y="136">Workflow (BaseGraph)</text>
+  <text class="small" x="712" y="164">role_play -> planner -> page_replan</text>
+  <text class="small" x="712" y="188">-> data_collection(parallel)</text>
+  <text class="small" x="712" y="212">-> init_format -> format(parallel)</text>
+  <text class="small" x="712" y="236">-> post_process -> validation -> zip_data</text>
+
+  <rect class="panel" x="48" y="288" width="376" height="148" />
+  <text class="txt" x="72" y="330">Memory &amp; State</text>
+  <text class="small" x="72" y="356">memory_manager / task_status</text>
+  <text class="small" x="72" y="380">plan, messages, progress tracking</text>
+
+  <rect class="panel" x="464" y="288" width="384" height="148" />
+  <text class="txt" x="488" y="330">Tools Layer</text>
+  <text class="small" x="488" y="356">web_search, web_fetch, image_search</text>
+  <text class="small" x="488" y="380">arxiv_search, file_system(MCP)</text>
+
+  <rect class="panel" x="888" y="288" width="344" height="148" />
+  <text class="txt" x="912" y="330">Model Layer</text>
+  <text class="small" x="912" y="356">Agent -> model mapping</text>
+  <text class="small" x="912" y="380">Thinking mode</text>
+
+  <rect class="panel" x="48" y="496" width="1184" height="124" />
+  <text class="txt" x="72" y="542">Output Artifacts</text>
+  <text class="small" x="72" y="568">HTML bundle / Markdown report + zip packaging</text>
+
+  <path class="arrow" d="M296 156 L352 156"/>
+  <path class="arrow" d="M632 156 L688 156"/>
+  <path class="arrow" d="M820 316 L820 250"/>
+  <path class="arrow" d="M236 436 L236 496"/>
+  <path class="arrow" d="M656 436 L656 496"/>
+  <path class="arrow" d="M1060 436 L1060 496"/>
+</svg>

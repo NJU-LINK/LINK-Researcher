@@ -1,0 +1,90 @@
+site_name: LINK-Researcher Tech Wiki
+site_description: Technical wiki for LINK-Researcher
+
+site_url: https://nju-link.github.io/LINK-Researcher/
+repo_url: https://github.com/NJU-LINK/LINK-Researcher
+repo_name: LINK-Researcher
+
+docs_dir: wiki_pages/wiki_docs
+site_dir: site/wiki
+exclude_docs: |
+  README.md
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.top
+    - navigation.sections
+    - navigation.indexes
+    - toc.follow
+    - content.code.copy
+    - search.highlight
+    - search.suggest
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
+      accent: blue grey
+      toggle:
+        icon: material/brightness-7
+        name: 切换到深色模式
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: blue grey
+      toggle:
+        icon: material/brightness-4
+        name: 切换到浅色模式
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: suffix
+      languages:
+        - locale: en
+          name: English
+          build: true
+          default: true
+        - locale: zh
+          name: 中文
+          build: true
+
+extra:
+  alternate:
+    - name: English
+      link: /LINK-Researcher/
+      lang: en
+    - name: 中文
+      link: /LINK-Researcher/zh/
+      lang: zh
+
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/extra.js
+
+nav:
+  - Overview: index.md
+  - Quick Start: quick-start.md
+  - Architecture: architecture.md
+  - Reference: reference.md

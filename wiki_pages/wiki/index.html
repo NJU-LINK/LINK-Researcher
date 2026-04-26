@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LINK-Researcher Tech Wiki</title>
+  <meta name="description" content="LINK-Researcher 技术 Wiki（单页目录 + 顶部导航）" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="bg-glow bg-glow-a"></div>
+  <div class="bg-glow bg-glow-b"></div>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="icon-btn" id="menuToggle" aria-label="打开目录">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="brand">
+        <div class="brand-dot"></div>
+        <span>LINK-Researcher Tech Wiki</span>
+      </div>
+    </div>
+    <nav class="top-links">
+      <a href="#overview">概览</a>
+      <a href="#architecture">架构</a>
+      <a href="#workflow">流程</a>
+      <a href="#configuration">配置</a>
+      <a href="#extension">扩展</a>
+    </nav>
+    <button class="theme-btn" id="themeToggle" aria-label="切换主题">Auto</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-title">目录</div>
+      <a class="toc-link" href="#overview">0. 项目概览</a>
+      <a class="toc-link" href="#quickstart">1. 快速启动</a>
+      <a class="toc-link" href="#architecture">2. 系统架构</a>
+      <a class="toc-link" href="#workflow">3. 工作流拓扑</a>
+      <a class="toc-link" href="#core-modules">4. 核心模块拆解</a>
+      <a class="toc-link" href="#configuration">5. 配置矩阵</a>
+      <a class="toc-link" href="#runtime">6. 运行时与状态管理</a>
+      <a class="toc-link" href="#extension">7. 扩展开发指南</a>
+      <a class="toc-link" href="#faq">8. 常见问题</a>
+    </aside>
+
+    <main class="content">
+      <section id="overview" class="panel hero">
+        <p class="eyebrow">Technical Wiki / Project-Centric Overview</p>
+        <h1>Overview: 面向真实交付的多 Agent 研究生产线</h1>
+        <p class="hero-text">
+          <code>LINK-Researcher</code> 的核心不是“生成一段答案”，而是把复杂研究任务拆解为可执行、可观察、可收敛的流水线。
+          系统围绕 LangGraph 进行节点编排，覆盖任务理解、规划、检索、并行写作、后处理与校验，最终输出可交付结果。
+        </p>
+
+        <div class="kpi-grid">
+          <article class="kpi-card">
+            <h3>Multi-Agent Collaboration</h3>
+            <p>角色定义、规划、采集、格式化、校验等 Agent 协同执行</p>
+          </article>
+          <article class="kpi-card">
+            <h3>Parallel Processing</h3>
+            <p>并行数据采集与并行章节生成，缩短长链路耗时</p>
+          </article>
+          <article class="kpi-card">
+            <h3>Tool-Integrated Retrieval</h3>
+            <p>Web Search / Web Fetch / ArXiv / Image / MCP FileSystem</p>
+          </article>
+          <article class="kpi-card">
+            <h3>Config-Driven Runtime</h3>
+            <p><code>FAST_MODE</code> 与模型映射配置支持速度-质量权衡</p>
+          </article>
+        </div>
+
+        <h3>从输入到交付：主流程骨架</h3>
+        <pre><code>START
+  -&gt; role_play
+  -&gt; planner
+  -&gt; (perception | page_replan)
+  -&gt; data_collection (parallel)
+  -&gt; init_design_guide
+  -&gt; init_format
+  -&gt; format (parallel)
+  -&gt; post_process
+  -&gt; validation
+  -&gt; zip_data
+  -&gt; END</code></pre>
+
+        <div class="callout">
+          <strong>为什么这条链路有效：</strong>
+          <span>它把“长链路不确定性”拆成清晰阶段，并通过状态管理与并行机制提升稳定性和吞吐。</span>
+        </div>
+
+        <h3>关键模块与代码落点</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>能力</th><th>作用</th><th>关键文件</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>运行入口</td><td>参数解析、运行时初始化、任务启动</td><td><code>run_flow_fastapi.py</code></td></tr>
+              <tr><td>图谱分流</td><td>按输出格式选择图谱</td><td><code>src/entrypoint/graph_imports.py</code></td></tr>
+              <tr><td>图谱编排</td><td>节点定义、条件路由、并行派发</td><td><code>src/graph/base_graph.py</code></td></tr>
+              <tr><td>工具能力</td><td>检索、抓取、学术搜索、文件系统</td><td><code>src/tools/research/</code></td></tr>
+              <tr><td>状态与记忆</td><td>计划、中间结果、阶段状态跟踪</td><td><code>src/memory/</code> / <code>src/states/</code></td></tr>
+              <tr><td>模型策略</td><td>Agent-Model 映射与加载</td><td><code>config/agent_config.py</code> / <code>config/model_config.py</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>运行取舍：速度、质量与稳定性</h3>
+        <ul class="plain-list">
+          <li><strong>速度：</strong><code>FAST_MODE</code> 可减少搜索与推理开销，适合快速迭代。</li>
+          <li><strong>质量：</strong>保留 validation 与更充分检索，通常能提升结构一致性与证据完整性。</li>
+          <li><strong>稳定：</strong>通过显式节点边界 + 状态追踪，故障更容易定位与修复。</li>
+          <li><strong>扩展：</strong>新增工具、模型或格式时，可在现有图谱框架下增量演进。</li>
+        </ul>
+      </section>
+
+      <section id="quickstart" class="panel">
+        <h2>1. 快速启动</h2>
+        <p>主入口是 <code>run_flow_fastapi.py</code>。当前项目支持 <code>html</code> 与 <code>md</code> 两种图谱路径。</p>
+        <pre><code class="language-bash">python run_flow_fastapi.py \
+  --session_id "$(uuidgen)" \
+  --prompt "分析近三年多模态大模型研究趋势" \
+  --result_format "html" \
+  --human_in_loop False</code></pre>
+        <div class="callout">
+          <strong>实现观察：</strong>
+          <span>入口中会初始化 Redis、工作区、MCP 客户端状态检查、搜索服务探活，再启动图谱执行与消息队列处理。</span>
+        </div>
+      </section>
+
+      <section id="architecture" class="panel">
+        <h2>2. 系统架构</h2>
+        <div class="columns">
+          <article class="info-card">
+            <h3>编排层（Graph）</h3>
+            <p><code>src/graph/base_graph.py</code> 定义公共节点与路由，格式子类覆盖格式特定 Agent。</p>
+            <ul>
+              <li>通用节点：role_play / planner / data_collection / perception</li>
+              <li>格式节点：init_format / format / post_process / validation</li>
+              <li>收尾节点：zip_data</li>
+            </ul>
+          </article>
+          <article class="info-card">
+            <h3>能力层（Tools）</h3>
+            <p>组合 Web Search、Web Fetch、Image Search、ArXiv、FileSystem(MCP) 等工具。</p>
+            <ul>
+              <li><code>src/tools/research/web_search.py</code></li>
+              <li><code>src/tools/research/web_fetch.py</code></li>
+              <li><code>src/tools/research/arxiv_search.py</code></li>
+              <li><code>src/tools/research/file_system.py</code></li>
+            </ul>
+          </article>
+          <article class="info-card">
+            <h3>模型层（Models）</h3>
+            <p><code>config/agent_config.py</code> 中按 Agent 绑定模型配置，<code>ModelManager</code> 统一加载模型参数。</p>
+            <ul>
+              <li>默认：<code>gpt-5.4</code></li>
+              <li>视觉：<code>qwen3-vl-plus</code></li>
+              <li>回退：<code>qwen3-235b-a22b-thinking-2507</code></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="workflow" class="panel">
+        <h2>3. 工作流拓扑</h2>
+        <p>从 <code>BaseGraph.build_graph()</code> 可还原核心链路：</p>
+        <pre><code>START
+  -> role_play
+  -> planner
+  -> (perception | page_replan)
+  -> data_collection (并行)
+  -> init_design_guide
+  -> init_format
+  -> format (并行)
+  -> post_process
+  -> validation
+  -> zip_data
+  -> END</code></pre>
+        <div class="timeline">
+          <div class="step"><span>Phase A</span><p>任务语义澄清 + 角色定义</p></div>
+          <div class="step"><span>Phase B</span><p>计划生成 + 感知输入文件</p></div>
+          <div class="step"><span>Phase C</span><p>并行搜集证据 + 结构化写作</p></div>
+          <div class="step"><span>Phase D</span><p>后处理、校验与打包结果</p></div>
+        </div>
+      </section>
+
+      <section id="core-modules" class="panel">
+        <h2>4. 核心模块拆解</h2>
+        <article class="module-block">
+          <h3>4.1 图谱路由层</h3>
+          <p><code>src/entrypoint/graph_imports.py</code> 根据 <code>result_format</code> 分流到 <code>HTMLGraph</code> / <code>MDGraph</code>。</p>
+          <p>这意味着同一套研究前置流程可复用，不同输出格式只需覆盖格式相关 Agent 与打包逻辑。</p>
+        </article>
+        <article class="module-block">
+          <h3>4.2 并行任务分发</h3>
+          <p><code>send_to_data_collection()</code> 与 <code>send_to_format()</code> 用 <code>Send()</code> 批量派发子任务，实现并行数据收集和并行章节写作。</p>
+        </article>
+        <article class="module-block">
+          <h3>4.3 可选角色与校验环节</h3>
+          <p><code>ENABLE_ROLE_PLAY</code>、<code>ENABLE_VALIDATION</code> 让流程可在质量与速度之间切换。</p>
+        </article>
+      </section>
+
+      <section id="configuration" class="panel">
+        <h2>5. 配置矩阵</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>配置文件</th><th>关键字段</th><th>作用</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>config/mode_config.py</code></td><td><code>FAST_MODE</code>, <code>SEARCH_NUM</code></td><td>控制全局速度/质量策略</td></tr>
+              <tr><td><code>config/agent_config.py</code></td><td><code>base_config</code>, <code>md_config</code>, <code>html_config</code></td><td>Agent 到模型的映射</td></tr>
+              <tr><td><code>config/api_config.py</code></td><td>搜索源、抓取源、超时配置</td><td>外部依赖编排</td></tr>
+              <tr><td><code>config/model_config.py</code></td><td>模型注册参数</td><td>底层模型接入</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="runtime" class="panel">
+        <h2>6. 运行时与状态管理</h2>
+        <ul class="plain-list">
+          <li><strong>任务状态：</strong><code>src/states/task_status.py</code> 追踪阶段与中断信息。</li>
+          <li><strong>会话内存：</strong><code>src/memory/memory_manager.py</code> 保存 plan、上下文与中间结果。</li>
+          <li><strong>消息队列：</strong><code>MessageQueueProcessor</code> 负责事件流输出与结束通知。</li>
+          <li><strong>MCP 连接：</strong>启动前检查健康，异常时自动重试并清理连接。</li>
+        </ul>
+      </section>
+
+      <section id="extension" class="panel">
+        <h2>7. 扩展开发指南</h2>
+        <div class="columns">
+          <article class="info-card">
+            <h3>新增格式输出</h3>
+            <p>继承 <code>BaseGraph</code>，实现格式 Agent 与 <code>get_zip_data_node()</code>，再在 <code>graph_imports.py</code> 注册。</p>
+          </article>
+          <article class="info-card">
+            <h3>新增工具能力</h3>
+            <p>在 <code>src/tools/research/</code> 增加工具并注入到对应 Agent 工具列表。</p>
+          </article>
+          <article class="info-card">
+            <h3>新增模型策略</h3>
+            <p>在 <code>config/model_config.py</code> 注册，随后在 <code>config/agent_config.py</code> 绑定到指定 Agent。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="faq" class="panel">
+        <h2>8. 常见问题</h2>
+        <details>
+          <summary>为什么开启 FAST_MODE 后效果变化明显？</summary>
+          <p>因为 FAST_MODE 会联动关闭深度思考与验证，降低检索数量，并启用章节压缩。</p>
+        </details>
+        <details>
+          <summary>为什么 markdown 与 html 路径行为不同？</summary>
+          <p>两者前置研究节点共用，但格式 Agent、后处理与打包逻辑由各自 Graph 子类实现。</p>
+        </details>
+        <details>
+          <summary>下一步如何继续完善这份 Wiki？</summary>
+          <p>建议先补每个 Agent 的输入输出契约和失败重试机制，再补典型 trace 截图与真实耗时数据。</p>
+        </details>
+      </section>
+
+      <footer class="footer">
+        <p>Built for <code>LINK-Researcher</code> · first-pass style baseline</p>
+      </footer>
+    </main>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
