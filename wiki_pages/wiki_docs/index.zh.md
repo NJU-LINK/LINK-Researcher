@@ -1,6 +1,6 @@
 # :material-view-dashboard-outline: Overview
 
-`LINK-Researcher` 是一条为“复杂研究任务交付”设计的系统。它不是单次问答助手，而是一个由 LangGraph 驱动的多 Agent 系统：先理解任务，再拆解计划，随后并行检索和写作，最后完成后处理、校验与打包输出。  
+`LINK-Researcher` 是**由南京大学和Alibaba Group设计的**, 由 LangGraph 驱动的多 Agent 系统。它不是单次问答助手，而是一个为“复杂研究任务交付”设计的系统：先理解任务，再拆解计划，随后并行检索和写作，最后完成后处理、校验与打包输出。  
 在工程实现上，它把“计划可信度、证据覆盖度、输出一致性”拆到不同节点各自负责。因此当结果不理想时，你可以快速定位问题发生在规划、采集、生成还是校验阶段。
 
 <div class="hero-panel">

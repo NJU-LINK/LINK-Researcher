@@ -1,6 +1,6 @@
 # :material-view-dashboard-outline: Overview
 
-`LINK-Researcher` is a system built for **shipping complex research tasks** end-to-end. Instead of a single-turn Q&A bot, it is a **LangGraph-powered multi-agent workflow** that: understands the task, produces a plan, collects evidence in parallel, writes sections in parallel, then post-processes, validates, and packages deliverables.
+`LINK-Researcher` is a LangGraph-powered multi-agent workflow **designed by Nanjing University and Alibaba Group** for shipping complex research tasks end-to-end. Instead of a single-turn Q&A bot, it understands the task, produces a plan, collects evidence in parallel, writes sections in parallel, then post-processes, validates, and packages deliverables.
 
 At an engineering level, it separates responsibilities across nodes so you can quickly diagnose where quality issues occur: planning, retrieval, generation, or validation.
 
